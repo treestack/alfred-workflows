@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>de.treestack.switchaudiodevice</string>
+	<key>connections</key>
+	<dict>
+		<key>432D546A-B937-4D8D-8328-E48D80ADF70F</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>AC9B994C-1887-441B-AD0E-5306D1C64138</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>1DDA9BC5-B3B7-4F57-AC3D-6BC7A28322F4</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>8868C94F-BBA5-4014-9371-529A647235E0</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>432D546A-B937-4D8D-8328-E48D80ADF70F</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>FAE9F077-73FA-4A63-9334-0B0EAD6DA0DA</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>432D546A-B937-4D8D-8328-E48D80ADF70F</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Christoph von Krüchten &lt;cvk@treestack.de&gt;</string>
+	<key>description</key>
+	<string></string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Switch audio device</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>SwitchAudioSource -s $1</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>5</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>AC9B994C-1887-441B-AD0E-5306D1C64138</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<true/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>output</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>script</key>
+				<string>import sys
+import subprocess
+import json
+
+def to_option(devices):
+    items = map(to_item, devices)
+    return {
+        "skipknowledge": True,
+        "rerun": 30,
+        "items": list(items)
+    }
+
+def to_item(s): 
+    title, type, id, *rest = s.split(",")
+    return {
+        "uid": id,
+        "title": title,
+		"arg": title,
+    }
+
+def devices(device_type):
+    result = subprocess.run(['SwitchAudioSource', '-a', '-f', 'cli', '-t', device_type], stdout=subprocess.PIPE)
+    devices = result.stdout.decode('utf-8').splitlines()
+    return json.dumps(to_option(devices))
+
+print(devices("output"))
+</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string>devices.py</string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string>Ausgabegerät ändern</string>
+				<key>type</key>
+				<integer>9</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>FAE9F077-73FA-4A63-9334-0B0EAD6DA0DA</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.junction</string>
+			<key>uid</key>
+			<string>432D546A-B937-4D8D-8328-E48D80ADF70F</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<true/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>input</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>script</key>
+				<string>import sys
+import subprocess
+import json
+
+def to_option(devices):
+    items = map(to_item, devices)
+    return {
+        "skipknowledge": True,
+        "rerun": 30,
+        "items": list(items)
+    }
+
+def to_item(s): 
+    title, type, id, *rest = s.split(",")
+    return {
+        "uid": id,
+        "title": title,
+		"arg": title,
+    }
+
+def devices(device_type):
+    result = subprocess.run(['SwitchAudioSource', '-a', '-f', 'cli', '-t', device_type], stdout=subprocess.PIPE)
+    devices = result.stdout.decode('utf-8').splitlines()
+    return json.dumps(to_option(devices))
+
+print(devices("input"))
+</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string>devices.py</string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string>Eingabegerät ändern</string>
+				<key>type</key>
+				<integer>9</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>8868C94F-BBA5-4014-9371-529A647235E0</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>Das Audiogerät wurde auf {query} geändert</string>
+				<key>title</key>
+				<string>Audiogerät geändert</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>1DDA9BC5-B3B7-4F57-AC3D-6BC7A28322F4</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string>Requires SwitchAudioSource:
+
+brew install switchaudio-osx</string>
+	<key>uidata</key>
+	<dict>
+		<key>1DDA9BC5-B3B7-4F57-AC3D-6BC7A28322F4</key>
+		<dict>
+			<key>xpos</key>
+			<real>855</real>
+			<key>ypos</key>
+			<real>260</real>
+		</dict>
+		<key>432D546A-B937-4D8D-8328-E48D80ADF70F</key>
+		<dict>
+			<key>xpos</key>
+			<real>665</real>
+			<key>ypos</key>
+			<real>85</real>
+		</dict>
+		<key>8868C94F-BBA5-4014-9371-529A647235E0</key>
+		<dict>
+			<key>xpos</key>
+			<real>375</real>
+			<key>ypos</key>
+			<real>190</real>
+		</dict>
+		<key>AC9B994C-1887-441B-AD0E-5306D1C64138</key>
+		<dict>
+			<key>xpos</key>
+			<real>855</real>
+			<key>ypos</key>
+			<real>50</real>
+		</dict>
+		<key>FAE9F077-73FA-4A63-9334-0B0EAD6DA0DA</key>
+		<dict>
+			<key>xpos</key>
+			<real>370</real>
+			<key>ypos</key>
+			<real>60</real>
+		</dict>
+	</dict>
+	<key>userconfigurationconfig</key>
+	<array/>
+	<key>variablesdontexport</key>
+	<array/>
+	<key>version</key>
+	<string>1.0.2</string>
+	<key>webaddress</key>
+	<string></string>
+</dict>
+</plist>
