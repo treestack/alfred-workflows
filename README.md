@@ -16,7 +16,7 @@ Download desired `.workflow` file, double click to import into Alfred.
 
 ### Gitm
 
-Creates a fancy semantic git commit message, using emojis propsed by [https://gitmoji.dev/](https://gitmoji.dev/), and copies it to clipboard:
+Creates a fancy semantic git commit message, using emojis proposed by [https://gitmoji.dev/](https://gitmoji.dev/), and copies it to clipboard:
 
 ![Alt Text](./gitm/gitm.gif)
 
