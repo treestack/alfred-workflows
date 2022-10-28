@@ -2,25 +2,35 @@ import sys
 import json
 
 emojis = {
-  "chore": "🎨",
-  "docs": "📝",
-  "feat": "✨",
-  "fix": "🐛",
-  "refactor": "♻️",
-  "style": "💄",
-  "test": "✅"
+    "chore": "🎨",
+    "docs": "📝",
+    "feat": "✨",
+    "fix": "🐛",
+    "refactor": "♻️",
+    "style": "💄",
+    "test": "✅"
 }
 
 query = sys.argv[1:]
 action = query[0]
 is_action_valid = action in emojis
 
-default = [{
-  "title": "valid types: {lst}".format(lst=", ".join(emojis.keys()))
+
+_default = [{
+    "title": "valid types: {lst}".format(lst=", ".join(emojis.keys()))
 }]
 
 
 def get_items(q):
+
+    all_suggestions = [{
+        "title": "{key}: {value}".format(key=key, value=emojis[key]),
+        "autocomplete": "{key} ".format(key=key)
+    } for key in emojis.keys()]
+
+    filtered_suggestions = [suggestion for suggestion in all_suggestions if suggestion["title"].startswith(action)]
+    default = filtered_suggestions if len(filtered_suggestions) > 0 else all_suggestions
+
     if not is_action_valid:
         return default
 
@@ -39,14 +49,14 @@ def get_items(q):
     )
 
     return [{
-      "title": title,
-      "subtitle": "Copy result to clipboard",
-      "arg": title
+        "title": title,
+        "subtitle": "Copy result to clipboard",
+        "arg": title
     }]
 
 
 result = json.dumps({
-  "items": get_items(query)
+    "items": get_items(query)
 }, indent=2)
 
 sys.stdout.write(result)
