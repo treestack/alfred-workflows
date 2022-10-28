@@ -24,4 +24,4 @@ Example usage:
 
 `gitm feat some fancy new feature`
 
-[Download workflow file](./gitm/gitm.alfredworkflow)
+[Download workflow file](https://github.com/treestack/alfred-workflows/blob/main/gitm/gitm.alfredworkflow?raw=true)
